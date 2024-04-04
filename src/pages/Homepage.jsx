@@ -7,7 +7,7 @@ import { FaSearch } from "react-icons/fa";
 const Homepage = ({ toggle, setToggle }) => {
 	const [country, setCountry] = useState([]);
 	const [search, setSearch] = useState("");
-
+	const [regions, setRegions] = useState("");
 	const getCountry = async () => {
 		try {
 			const response = await axios.get("http://localhost:3000/countries");
@@ -16,20 +16,36 @@ const Homepage = ({ toggle, setToggle }) => {
 			console.log(error);
 		}
 	};
+
 	useEffect(() => {
 		getCountry();
-	}, []);
+	}, [search]);
+
 	const handleSearch = (e) => {
-	 const searchTerm = e.target.value.toLowerCase();
+		const searchTerm = e.target.value.toLowerCase();
 		setSearch(searchTerm);
-		if (searchTerm === "") {
-			getCountry();
-		} else {
-			const filteredCountries = country.filter((country) =>
+		filterCountries(searchTerm, regions);
+	};
+	const handleFilterByRegion = (e) => {
+		const region = e.target.value;
+		setRegions(region);
+		filterCountries(search, region);
+	};
+	const filterCountries = (searchTerm, region) => {
+		let filteredCountries = country;
+		if (searchTerm !== "") {
+			filteredCountries = filteredCountries.filter((country) =>
 				country.name.toLowerCase().includes(searchTerm)
 			);
-			setCountry(filteredCountries);
 		}
+
+		if (region !== "") {
+			filteredCountries = filteredCountries.filter(
+				(country) => country.region === region
+			);
+		}
+
+		setCountry(filteredCountries);
 	};
 	return (
 		<div className={`${toggle && "bg-gray-900"} font-SansSerif`}>
@@ -76,19 +92,27 @@ const Homepage = ({ toggle, setToggle }) => {
 						onChange={handleSearch}
 					/>
 				</div>
-				<select name="" id="">
+				<select
+					name=""
+					id=""
+					value={regions}
+					onChange={handleFilterByRegion}
+					className="outline-none px-2 rounded-lg"
+				>
 					<option value="">Filter by region</option>
-					<option value="">Europe</option>
-					<option value="">Africa</option>
-					<option value="">Asia</option>
-					<option value="">America</option>
+					<option value="Europe">Europe</option>
+					<option value="Africa">Africa</option>
+					<option value="Asia">Asia</option>
+					<option value="Americas">Americas</option>
+					<option value="Oceania">Oceania</option>
+					<option value="Antarctic Ocean">Antarctic Ocean</option>
 				</select>
 			</header>
 			<main className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 px-20">
 				{country &&
 					country.map((country) => (
 						<div
-							key={country.area}
+							key={country.capital}
 							className={`${
 								toggle && "bg-gray-800 text-white"
 							} mb-7 div`}
