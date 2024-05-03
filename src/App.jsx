@@ -1,13 +1,16 @@
 import Homepage from "./pages/Homepage";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { DarkModeContext } from "./context/darkmodecontext";
 
 function App() {
-	const [toggle, setToggle] = useState(false);
+	const { toggle } = useContext(DarkModeContext);
 
 	return (
-		<>
-			<Homepage toggle={toggle} setToggle={setToggle} />
-		</>
+		<div
+			className={`${toggle && "bg-gray-900"} min-h-screen font-SansSerif`}
+		>
+			<Homepage />
+		</div>
 	);
 }
 
