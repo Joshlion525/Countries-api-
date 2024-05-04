@@ -8,7 +8,7 @@ import { DarkModeContext } from "../context/darkmodecontext";
 
 const Country = () => {
 	const { toggle } = useContext(DarkModeContext);
-	const api = "https://restcountries.com/v3.1/alpha/";
+	const api = "https://restcountries.com/v3.1/name/";
 	const { id } = useParams();
 	const [countrys, setCountrys] = useState([]);
 	const navigate = useNavigate();

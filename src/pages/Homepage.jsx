@@ -110,7 +110,7 @@ const Homepage = () => {
 				{filteredCountries.map((country) => (
 					<div
 						key={country.cca2}
-						onClick={() => navigate(`/country/${country.cca2}`)}
+						onClick={() => navigate(`/country/${country.name.common}`)}
 						className={`${
 							toggle && "bg-gray-800 text-white"
 						} mb-7 w-72 md:w-[100%] rounded-xl shadow-lg transition duration-500 ease-in-out hover:cursor-pointer transform hover:-translate-y-4 hover:shadow-md`}
